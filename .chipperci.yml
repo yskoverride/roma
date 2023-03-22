@@ -23,4 +23,4 @@ pipeline:
       # npm run dev # Mix
 
   - name: Run Tests
-    cmd: phpunit
+    cmd: pest
