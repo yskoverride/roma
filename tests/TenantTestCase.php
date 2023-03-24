@@ -15,34 +15,29 @@ abstract class TenantTestCase extends TestCase
      * @var boolean
      */
     protected $tenancy = true;
-    protected $shouldSeed = true;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        if (! $this->shouldSeed) {
-            // Tell the package to use a seeder that does nothing
-            config(['tenancy.seeder_parameters.--class' => EmptySeeder::class]);
-        }
+        $id = fake()->lastName(). rand(5,99);
+        $domain = $id. '.' . 'localhost';
+        $fullDomain = 'http://' .$id. '.' . 'localhost';
 
         if ($this->tenancy) {
-            $tenant = $this->createTenant('foo', 'tenant');
+            $tenant = $this->createTenant($id,$domain);
             tenancy()->initialize($tenant);
 
-            config(['app.url' => 'http://tenant.localhost']);
+            config(['app.url' => $fullDomain]);
 
             /** @var UrlGenerator */
             $urlGenerator = url();
-            $urlGenerator->forceRootUrl('http://tenant.localhost');
+            $urlGenerator->forceRootUrl($fullDomain);
 
             $this->withServerVariables([
-                'SERVER_NAME' => 'tenant.localhost',
-                'HTTP_HOST' => 'tenant.localhost',
+                'SERVER_NAME' => $domain,
+                'HTTP_HOST' => $domain,
             ]);
-
-            // Login as superuser - optional
-            // auth()->loginUsingId(1);
         }
     }
 }

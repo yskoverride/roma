@@ -20,7 +20,10 @@ abstract class TestCase extends BaseTestCase
     protected function createTenant(string $id = '', string $domain = null ): Tenant
     {
         $id = $id ?? Str::random('10');
-        $domain = $domain ?? $id . '.' .config(['tenancy.central_domains'][2]);
-        return (Tenant::create(['id' => $id]))->domains(['domain' => $domain]);
+        $domain = $domain ?? $id . '.' .'localhost';
+        $tenant = Tenant::create(['id' => $id]);
+        $tenant->domains()->create(['domain' => $domain]);
+
+        return $tenant;
     }
 }

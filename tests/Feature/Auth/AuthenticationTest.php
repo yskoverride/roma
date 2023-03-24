@@ -5,14 +5,14 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\TenantTestCase;
 
-class AuthenticationTest extends TestCase
+class AuthenticationTest extends TenantTestCase
 {
-    use RefreshDatabase;
 
     public function test_login_screen_can_be_rendered(): void
-    {
+    {  
+                
         $response = $this->get('/login');
 
         $response->assertStatus(200);

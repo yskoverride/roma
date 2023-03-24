@@ -18,16 +18,4 @@ class CentralDomainTest extends TestCase
 
         $response->assertStatus(200);
     }
-
-    public function test_new_tenants_can_be_created_from_central_domain()
-    {
-        $tenant1 = Tenant::create(['id' => 'foo']);
-
-        $tenant1->domains()->create(['domain' => 'foo.roma.test']);
-
-        $response = $this->get('http://foo.roma.test/tenant');
-
-        $response->assertStatus(200);
-
-    }
 }

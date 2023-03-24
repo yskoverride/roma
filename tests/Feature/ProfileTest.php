@@ -3,12 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Tests\TenantTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-class ProfileTest extends TestCase
+class ProfileTest extends TenantTestCase
 {
-    use RefreshDatabase;
 
     public function test_profile_page_is_displayed(): void
     {
