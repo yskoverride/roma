@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\DoctorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +98,10 @@ Route::middleware([
     
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                     ->name('logout');
+
+
+        //Doctors
+        Route::get('/doctors',[DoctorController::class,'index']);            
     });
 
 });
