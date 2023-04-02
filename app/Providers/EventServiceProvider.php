@@ -20,10 +20,6 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-
-        TenantCreated::class => [
-            CreateFrameworkDirectoriesForTenant::class,
-        ],
     ];
 
     /**
