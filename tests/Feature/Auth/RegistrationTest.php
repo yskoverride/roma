@@ -18,10 +18,12 @@ class RegistrationTest extends TenantTestCase
 
     public function test_new_users_can_register(): void
     {
+                
         $response = $this->post('/register', [
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
+            'phone' => '9878767651',
             'password_confirmation' => 'password',
         ]);
 
