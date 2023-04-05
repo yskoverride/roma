@@ -62,9 +62,8 @@ class DoctorComponent extends Component
 
         $this->resetInputFields();
 
-        session()->flash('message', 'Doctor added successfully.');
-
         $this->emit('closeModal');
+        $this->emitTo('notification-component', 'displayNotification', 'Doctor successfully created!');
     }
 
 
@@ -111,15 +110,17 @@ class DoctorComponent extends Component
     
         $this->resetInputFields();
 
-        session()->flash('message', 'Doctor updated successfully.');
-
         $this->emit('closeModal');
+
+        $this->emitTo('notification-component', 'displayNotification', 'Doctor successfully updated!');
+
     }
 
     public function delete($id)
     {
         User::find($id)->delete();
-        session()->flash('message', 'Doctor deleted successfully.');
+        
+        $this->emitTo('notification-component', 'displayNotification', 'Doctor successfully deleted!');
     }
 
     private function resetInputFields()

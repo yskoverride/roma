@@ -12,9 +12,11 @@ services:
 pipeline:
   - name: Setup
     cmd: |
-      cp -v .env.example .env
+      cp -v .env .env
       composer install --no-interaction --prefer-dist --optimize-autoloader
       php artisan key:generate
+      php artisan migrate
+      php artisan tenants:migrate
 
   - name: Compile Dev Assets
     cmd: |
@@ -23,4 +25,4 @@ pipeline:
       # npm run dev # Mix
 
   - name: Run Tests
-    cmd: pest
+    cmd: phpunit

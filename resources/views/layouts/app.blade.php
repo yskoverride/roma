@@ -17,6 +17,7 @@
         @livewireStyles
     </head>
     <body class="h-full">
+    @livewire('notification-component')
     <div x-data="{ desktop: true, profile: false, mobile:false }">
         <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
         <div  x-show="mobile" class="relative z-50 lg:hidden" role="dialog" aria-modal="true"
@@ -122,31 +123,6 @@
                         </li>
                         </ul>
                     </li>
-                    <!-- <li>
-                        <div class="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
-                        <ul role="list" class="-mx-2 mt-2 space-y-1">
-                        <li>
-                            <a href="#" class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">H</span>
-                            <span class="truncate">Heroicons</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">T</span>
-                            <span class="truncate">Tailwind Labs</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">W</span>
-                            <span class="truncate">Workcation</span>
-                            </a>
-                        </li>
-                        </ul>
-                    </li> -->
                     <li class="mt-auto">
                         <a href="#" class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -231,31 +207,7 @@
                     </li>
                     </ul>
                 </li>
-                <!-- <li>
-                    <div class="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
-                    <ul role="list" class="-mx-2 mt-2 space-y-1">
-                    <li>
-                        <a href="#" class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">H</span>
-                        <span class="truncate">Heroicons</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">T</span>
-                        <span class="truncate">Tailwind Labs</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                        <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">W</span>
-                        <span class="truncate">Workcation</span>
-                        </a>
-                    </li>
-                    </ul>
-                </li> -->
+                
                 <li class="mt-auto">
                     <a href="#" class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                     <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -314,16 +266,7 @@
                     </span>
                     </button>
 
-                    <!--
-                    Dropdown menu, show/hide based on menu state.
-
-                    Entering: "transition ease-out duration-100"
-                        From: "transform opacity-0 scale-95"
-                        To: "transform opacity-100 scale-100"
-                    Leaving: "transition ease-in duration-75"
-                        From: "transform opacity-100 scale-100"
-                        To: "transform opacity-0 scale-95"
-                    -->
+                    
                     <div x-show="profile" @click.outside="profile = false" 
                         class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none" role="menu" 
                         aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
@@ -355,7 +298,8 @@
             </div>
             </main>
         </div>
-        </div>
+        
+    </div>
 
         @livewireScripts
     </body>
