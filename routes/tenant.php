@@ -16,6 +16,8 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\PatientController;
+use App\Models\Patient;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,7 +103,9 @@ Route::middleware([
 
 
         //Doctors
-        Route::get('/doctors',[DoctorController::class,'index']);            
+        Route::get('/doctors',[DoctorController::class,'index']);
+        
+        Route::get('/patients',[PatientController::class,'index']); 
     });
 
 });

@@ -1,6 +1,6 @@
 <div class="flex align-center justify-center">
 <div x-data="{ show: @entangle('display')}"
-     x-show="show"
+     style="display: none !important" x-show.important="show"
      x-on:notification:display.window="show = true; setTimeout(() => { show = false }, $event.detail.duration)"
      aria-live="assertive"
      class="fixed top-0 left-1/2 transform -translate-x-1/2 z-50 flex items-end px-4 py-6 sm:items-start sm:p-6"

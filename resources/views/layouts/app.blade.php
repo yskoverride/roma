@@ -20,7 +20,7 @@
     @livewire('notification-component')
     <div x-data="{ desktop: true, profile: false, mobile:false }">
         <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-        <div  x-show="mobile" class="relative z-50 lg:hidden" role="dialog" aria-modal="true"
+        <div  style="display: none !important" x-show.important="mobile" class="relative z-50 lg:hidden" role="dialog" aria-modal="true"
                 x-transition:enter="transition-opacity ease-linear duration-300"
                 x-transition:enter-start="opacity-0"
                 x-transition:enter-end="opacity-100"
@@ -30,7 +30,7 @@
             
             <div class="fixed inset-0 bg-gray-900/80"></div>
 
-            <div x-show="mobile" class="fixed inset-0 flex"
+            <div style="display: none !important" x-show.important="mobile" class="fixed inset-0 flex"
                 x-transition:enter="transition ease-in-out duration-300 transform"
                 x-transition:enter-start="-translate-x-full"
                 x-transition:enter-end="translate-x-0"
@@ -39,7 +39,7 @@
                 x-transition:leave-end="-translate-x-full"
                 >
 
-            <div x-show="mobile" class="relative mr-16 flex w-full max-w-xs flex-1"
+            <div style="display: none !important" x-show.important="mobile" class="relative mr-16 flex w-full max-w-xs flex-1"
                 x-transition:enter="ease-in-out duration-300"
                 x-transition:enter-start="opacity-0"
                 x-transition:enter-end="opacity-100"
@@ -267,7 +267,7 @@
                     </button>
 
                     
-                    <div x-show="profile" @click.outside="profile = false" 
+                    <div style="display: none !important" x-show.important="profile" @click.outside="profile = false" 
                         class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none" role="menu" 
                         aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
                         x-transition:enter="transition ease-out duration-100"

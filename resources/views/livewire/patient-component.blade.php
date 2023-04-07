@@ -5,11 +5,11 @@
     <div class="px-4 sm:px-6 lg:px-8">
         <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
-            <h1 class="text-base font-semibold leading-6 text-gray-900">Users</h1>
-            <p class="mt-2 text-sm text-gray-700">A list of all the doctors.</p>
+            <h1 class="text-base font-semibold leading-6 text-gray-900">Patients</h1>
+            <p class="mt-2 text-sm text-gray-700">A list of all your patients.</p>
             </div>
             <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-            <button @click="showModal = true" type="button" wire:click.prevent="create" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Doctor</button>
+            <button @click="showModal = true" type="button" wire:click.prevent="create" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Patient</button>
             </div>
         </div>
         <div class="mt-8 flow-root">
@@ -20,7 +20,7 @@
                     <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Attendant Name</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Phone</th>
                         <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                         <span class="sr-only">Edit</span>
@@ -32,16 +32,16 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
-                        @foreach($doctors as $doctor)
+                        @foreach($patients as $patient)
                     <tr>
-                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{$doctor->name}}</td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{$doctor->email}}</td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{$doctor->phone}}</td>
+                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{$patient->name}}</td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{$patient->attendant_name}}</td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{$patient->phone}}</td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a href="#" @click="editModal=true" wire:click.prevent="edit({{ $doctor->id }})" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, {{$doctor->name}}</span></a>
+                        <a href="#" @click="editModal=true" wire:click.prevent="edit({{ $patient->id }})" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, {{$patient->name}}</span></a>
                         </td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a href="#" wire:click.prevent="delete({{ $doctor->id }})" class="text-red-600 hover:text-red-900">Delete<span class="sr-only">, {{$doctor->name}}</span></a>
+                        <a href="#" wire:click.prevent="delete({{ $patient->id }})" class="text-red-600 hover:text-red-900">Delete<span class="sr-only">, {{$patient->name}}</span></a>
                         </td>
                     </tr>
                     @endforeach
@@ -54,13 +54,13 @@
         </div>
 
         <div class="mt-2">
-            {{ $doctors->links() }}
+            {{ $patients->links() }}
         </div>
     </div>
 
 
 
-    <!-- Add doctors modal -->
+    <!-- Add patients modal -->
     <div style="display: none !important" x-show.important="showModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
@@ -72,23 +72,23 @@
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left min-w-full">
                             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                Create Doctor
+                                Create patient
                             </h3>
                             <div class="mt-6">
                                 <form>
                                     <div class="mb-4">
                                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                                        <input type="text" wire:model="name" id="name" name="name" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                        <input type="text" wire:model.lazy="name" id="name" name="name" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                         @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="mb-4">
-                                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                        <input type="email" wire:model="email" id="email" name="email" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                                        @error('email') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                                        <label for="attendant_name" class="block text-sm font-medium text-gray-700">Attendant Name</label>
+                                        <input type="attendant_name" wire:model.lazy="attendant_name" id="attendant_name" name="attendant_name" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                        @error('attendant_name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="mb-4">
                                         <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-                                        <input type="tel" wire:model="phone" id="phone" name="phone" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                        <input type="tel" wire:model.lazy="phone" id="phone" name="phone" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                         @error('phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
                                 </form>
@@ -106,7 +106,7 @@
 
 
 
-    <!-- Edit Doctor Modal -->
+    <!-- Edit patient Modal -->
     <div style="display: none !important" x-show.important="editModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
@@ -118,23 +118,23 @@
                     <div class="sm:flex sm:items-start">
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left min-w-full">
                             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                Edit Doctor Details
+                                Edit patient Details
                             </h3>
                             <div class="mt-6">
                                 <form>
                                     <div class="mb-4">
                                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                                        <input type="text" wire:model="name" id="name" name="name" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                        <input type="text" wire:model.lazy="name" id="name" name="name" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                         @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="mb-4">
-                                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                        <input type="email" wire:model="email" id="email" name="email" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
-                                        @error('email') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                                        <label for="attendant_name" class="block text-sm font-medium text-gray-700">attendant_name Name</label>
+                                        <input type="attendant_name" wire:model.lazy="attendant_name" id="attendant_name" name="attendant_name" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                        @error('attendant_name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="mb-4">
                                         <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
-                                        <input type="tel" wire:model="phone" id="phone" name="phone" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                                        <input type="tel" wire:model.lazy="phone" id="phone" name="phone" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                                         @error('phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                                     </div>
                                 </form>
@@ -152,4 +152,3 @@
 
 
 </div>
- 
