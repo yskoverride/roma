@@ -78,4 +78,53 @@ class DoctorComponentTest extends TenantTestCase
 
         $this->assertFalse(User::where('email', 'john.doe@example.com')->exists());
     }
+
+
+    /** @test */
+    public function it_searches_doctors_by_name()
+    {
+        // Create some User records
+        User::factory()->create(['name' => 'John Doe']);
+        User::factory()->create(['name' => 'Jane Smith']);
+        User::factory()->create(['name' => 'Alice']);
+
+        // Create and test the component
+        Livewire::test(DoctorComponent::class)
+            ->set('search', 'John')
+            ->assertSee('John Doe')
+            ->assertDontSee('Jane Smith')
+            ->assertDontSee('Alice');
+    }
+
+    /** @test */
+    public function it_searches_Doctors_by_email()
+    {
+        // Create some User records
+        User::factory()->create(['email' => 'John@test.com']);
+        User::factory()->create(['email' => 'Jane@test.com']);
+        User::factory()->create(['email' => 'Alic@test.com']);
+
+        // Create and test the component
+        Livewire::test(DoctorComponent::class)
+            ->set('search', 'John@t')
+            ->assertSee('John@test.com')
+            ->assertDontSee('Jane@test.com')
+            ->assertDontSee('Alic@test.com');
+    }
+
+    /** @test */
+    public function it_searches_Users_by_phone()
+    {
+        // Create some User records
+        User::factory()->create(['phone' => '+911111111111']);
+        User::factory()->create(['phone' => '+912222222222']);
+        User::factory()->create(['phone' => '+913333333333']);
+
+        // Create and test the component
+        Livewire::test(DoctorComponent::class)
+            ->set('search', '111')
+            ->assertSee('+911111111111')
+            ->assertDontSee('+912222222222')
+            ->assertDontSee('+913333333333');
+    }
 }

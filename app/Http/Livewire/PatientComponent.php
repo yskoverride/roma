@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 class PatientComponent extends Component
 {
     protected $patients;
+    public $search;
     public $name;
     public $attendant_name;
     public $phone;
@@ -18,10 +19,19 @@ class PatientComponent extends Component
 
     use WithPagination;
 
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         
-        $this->patients = Patient::paginate(10);
+        $this->patients = Patient::where('name','like','%'.$this->search.'%')
+                            ->orWhere('attendant_name','like','%'.$this->search.'%')
+                            ->orWhere('phone','like','%'.$this->search.'%')
+                            ->paginate(10);
+
         return view('livewire.patient-component', ['patients' => $this->patients]);
     }
 

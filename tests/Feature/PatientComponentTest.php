@@ -67,4 +67,52 @@ class PatientComponentTest extends TenantTestCase
         // Check if the patient is soft deleted
         $this->assertTrue($patient->fresh()->trashed());
     }
+
+    /** @test */
+    public function it_searches_patients_by_name()
+    {
+        // Create some patient records
+        Patient::factory()->create(['name' => 'John Doe']);
+        Patient::factory()->create(['name' => 'Jane Smith']);
+        Patient::factory()->create(['name' => 'Alice']);
+
+        // Create and test the component
+        Livewire::test(PatientComponent::class)
+            ->set('search', 'John')
+            ->assertSee('John Doe')
+            ->assertDontSee('Jane Smith')
+            ->assertDontSee('Alice');
+    }
+
+    /** @test */
+    public function it_searches_patients_by_attendant_name()
+    {
+        // Create some patient records
+        Patient::factory()->create(['attendant_name' => 'John']);
+        Patient::factory()->create(['attendant_name' => 'Jane']);
+        Patient::factory()->create(['attendant_name' => 'Alice']);
+
+        // Create and test the component
+        Livewire::test(PatientComponent::class)
+            ->set('search', 'John')
+            ->assertSee('John')
+            ->assertDontSee('Jane')
+            ->assertDontSee('Alice');
+    }
+
+    /** @test */
+    public function it_searches_patients_by_phone()
+    {
+        // Create some patient records
+        Patient::factory()->create(['phone' => '+911111111111']);
+        Patient::factory()->create(['phone' => '+912222222222']);
+        Patient::factory()->create(['phone' => '+913333333333']);
+
+        // Create and test the component
+        Livewire::test(PatientComponent::class)
+            ->set('search', '111')
+            ->assertSee('+911111111111')
+            ->assertDontSee('+912222222222')
+            ->assertDontSee('+913333333333');
+    }
 }

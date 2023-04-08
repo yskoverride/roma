@@ -14,6 +14,7 @@ class DoctorComponent extends Component
 {
     protected $doctors;
     public $name;
+    public $search;
     public $email;
     public $phone;
     public $doctorId;
@@ -22,10 +23,19 @@ class DoctorComponent extends Component
 
     use WithPagination;
 
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         
-        $this->doctors = User::paginate(10);
+        $this->doctors = User::where('name','like','%'.$this->search.'%')
+                            ->orWhere('email','like','%'.$this->search.'%')
+                            ->orWhere('phone','like','%'.$this->search.'%')
+                            ->paginate(10);
+                            
         return view('livewire.doctor-component', ['doctors' => $this->doctors]);
     }
 
