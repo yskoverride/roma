@@ -3,11 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Bookings\TimeSlotGenerator;
+use Illuminate\Notifications\Notifiable;
+use App\Bookings\Filters\AppointmentFilter;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Bookings\Filters\UnavailabilityFilter;
+use App\Bookings\Filters\SlotsPassedTodayFilter;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -43,4 +48,35 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class);
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    public function appointmentsForDate(Carbon $date)
+    {
+        return $this->appointments()->whereDate('date',$date)->get();
+    }
+
+    public function availableTimeSlots(Schedule $schedule, Service $service)
+    {
+        return (New TimeSlotGenerator($schedule,$service))
+                        ->applyFilters([
+                            New SlotsPassedTodayFilter(),
+                            New UnavailabilityFilter($schedule->unavailabilities),
+                            New AppointmentFilter($this->appointmentsForDate($schedule->date)),
+                            ])->get();
+    }
+
 }

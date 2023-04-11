@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\PatientController;
 use App\Models\Patient;
@@ -106,6 +107,8 @@ Route::middleware([
         Route::get('/doctors',[DoctorController::class,'index']);
         
         Route::get('/patients',[PatientController::class,'index']); 
+
+        Route::get('/appointment',[BookingController::class,'index']);
     });
 
 });
