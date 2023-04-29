@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class ScheduleFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => 1,
+            'user_id' => User::factory()->create()->id,
             'date' => fake()->date(),
             'start_time' => '09:00:00',
             'end_time' => '17:00:00',

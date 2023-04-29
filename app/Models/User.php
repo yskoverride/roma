@@ -12,6 +12,8 @@ use App\Bookings\Filters\UnavailabilityFilter;
 use App\Bookings\Filters\SlotsPassedTodayFilter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -51,7 +53,7 @@ class User extends Authenticatable
 
     public function services()
     {
-        return $this->belongsToMany(Service::class);
+        return $this->belongsToMany(Service::class,'user_service');
     }
 
     public function schedules()
@@ -66,7 +68,7 @@ class User extends Authenticatable
 
     public function appointmentsForDate(Carbon $date)
     {
-        return $this->appointments()->whereDate('date',$date)->get();
+        return $this->appointments()->notCancelled()->whereDate('date',$date)->get();
     }
 
     public function availableTimeSlots(Schedule $schedule, Service $service)

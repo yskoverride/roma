@@ -1,3 +1,3 @@
-@foreach($slots as $slot)
-    {{ $slot }} <br/>
-@endforeach
+<x-app-layout>
+    @livewire('create-booking')
+</x-app-layout>

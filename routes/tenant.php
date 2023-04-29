@@ -18,7 +18,7 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\PatientController;
-use App\Models\Patient;
+use App\Http\Livewire\ShowBooking;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,7 +108,9 @@ Route::middleware([
         
         Route::get('/patients',[PatientController::class,'index']); 
 
-        Route::get('/appointment',[BookingController::class,'index']);
+        Route::get('/appointment/create',[BookingController::class,'index']);
+
+        Route::get('/appointment/show/{appointment:uuid}', ShowBooking::class)->name('appointment.show');
     });
 
 });

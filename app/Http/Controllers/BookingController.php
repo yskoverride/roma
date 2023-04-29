@@ -15,12 +15,6 @@ class BookingController extends Controller
 {
     public function index()
     {
-        
-        $schedule = Schedule::find(47);
-        $service = Service::find(1);
-
-        $slots = Auth::User()->availableTimeSlots($schedule,$service);
-        
-        return view('booking',['slots' => $slots]);
+        return view('booking');
     }
 }
