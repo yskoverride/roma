@@ -7,8 +7,6 @@ use Illuminate\Routing\UrlGenerator;
 
 abstract class TenantTestCase extends TestCase
 {
-    use DatabaseMigrations;
-
     /**
      * Create tenant and initialize tenancy?
      *
@@ -20,9 +18,9 @@ abstract class TenantTestCase extends TestCase
     {
         parent::setUp();
 
-        $id = fake()->lastName(). rand(5,99);
-        $domain = $id. '.' . 'localhost';
-        $fullDomain = 'http://' .$id. '.' . 'localhost';
+        $id = fake()->firstName(). rand(5,99);
+        $domain = $id. '.' . 'roma.test';
+        $fullDomain = 'http://' .$id. '.' . 'roma.test';
 
         if ($this->tenancy) {
             $tenant = $this->createTenant($id,$domain);
