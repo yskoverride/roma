@@ -2,8 +2,14 @@
 
 declare(strict_types=1);
 
+use App\Http\Livewire\ShowBooking;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\SettingsComponent;
+use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
@@ -15,10 +21,6 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\DoctorController;
-use App\Http\Controllers\PatientController;
-use App\Http\Livewire\ShowBooking;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,6 +113,9 @@ Route::middleware([
         Route::get('/appointment/create',[BookingController::class,'index']);
 
         Route::get('/appointment/show/{appointment:uuid}', ShowBooking::class)->name('appointment.show');
+
+
+        Route::get('/settings',[SettingsController::class,'index'])->name('settings');
     });
 
 });

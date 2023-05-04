@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Livewire\Livewire;
 use App\Models\Service;
 use App\Models\Schedule;
 use Tests\TenantTestCase;
@@ -50,6 +51,33 @@ class ServiceTest extends TenantTestCase
         $this->assertTrue($userSchedules->contains($schedule));
     }
 
+    /** @test */
+    public function it_displays_the_services_tab_on_the_settings_page()
+    {
+        // Create a new user and set it as the authenticated user
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        // Visit the settings page
+        $response = $this->get('/settings');
+
+        // Assert that the services tab is present
+        $response->assertSee('Services');
+    }
+
+    /** @test */
+    public function it_displays_the_service_component_on_the_services_tab()
+    {
+        // Create a new user and set it as the authenticated user
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        // Visit the settings page
+        $response = $this->get('/settings');
+
+        // Assert that the service component is present
+        $response->assertSeeLivewire('service-component');
+    }
 
 
 }

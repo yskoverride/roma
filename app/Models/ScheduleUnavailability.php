@@ -10,7 +10,7 @@ class ScheduleUnavailability extends Model
     use HasFactory;
 
     protected $fillable = [
-        'start_time', 'end_time'
+        'start_time', 'end_time', 'schedule_id'
     ];
 
     protected $casts = [
