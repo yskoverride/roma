@@ -23,7 +23,7 @@ class RegistrationTest extends TenantTestCase
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
-            'phone' => '9878767651',
+            'phone' => '+919878767651',
             'password_confirmation' => 'password',
         ]);
 
