@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use App\Jobs\CreateFrameworkDirectoriesForTenant;
+use App\Jobs\CreateTenantAdmin;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -29,10 +30,12 @@ class TenancyServiceProvider extends ServiceProvider
                     Jobs\CreateDatabase::class,
                     Jobs\MigrateDatabase::class,
                     // Jobs\SeedDatabase::class,
-                    CreateFrameworkDirectoriesForTenant::class
+                    CreateFrameworkDirectoriesForTenant::class,
 
                     // Your own jobs to prepare the tenant.
                     // Provision API keys, create S3 buckets, anything you want!
+
+                    CreateTenantAdmin::class,
 
                 ])->send(function (Events\TenantCreated $event) {
                     return $event->tenant;

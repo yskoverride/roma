@@ -18,6 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/dashboard';
+    public const ADMIN_HOME = '/super-admin/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -31,14 +32,6 @@ class RouteServiceProvider extends ServiceProvider
             $this->mapWebRoutes();
         });
 
-        // $this->routes(function () {
-        //     Route::middleware('api')
-        //         ->prefix('api')
-        //         ->group(base_path('routes/api.php'));
-
-        //     Route::middleware('web')
-        //         ->group(base_path('routes/web.php'));
-        // });
     }
 
     /**
@@ -46,6 +39,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function configureRateLimiting(): void
     {
+        
+        RateLimiter::for('super-admin-login', function (Request $request) {
+            return Limit::perMinute(5)->by($request->ip());
+        });
+        
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
@@ -76,4 +74,4 @@ class RouteServiceProvider extends ServiceProvider
     {
         return config('tenancy.central_domains');
     }
-    }
+}
