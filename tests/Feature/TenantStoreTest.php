@@ -26,7 +26,15 @@ class TenantStoreTest extends TestCase
             'phone' => '+919861424281'
         ];
 
-        $this->user = SuperAdmin::where('email' , '=' , 'sunil@test.com')->get()[0];
+        // Create new SuperAdmin
+        SuperAdmin::create([
+            'name' => fake()->name(),
+            'email' => fake()->email(),
+            'phone' => fake()->phoneNumber(),
+            'password' => bcrypt('Password')
+        ]);
+
+        $this->user = SuperAdmin::where('email' , '=' , env('BONKER_EMAIL'))->get()[0];
 
     }
 
