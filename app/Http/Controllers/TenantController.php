@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tenant;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\TenantFormRequest;
@@ -48,5 +49,35 @@ class TenantController extends Controller
         }
 
     }
+
+    public function updateSubscription(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'subscription_status' => 'required|boolean',
+        ]);
+
+        try {
+            DB::transaction(function() use ($validatedData,$id){
+                $tenant = Tenant::findOrFail($id);
+                $tenant->subscription_status = $validatedData['subscription_status'];
+                $tenant->save();
+            });
+
+            return back()->with([
+                'status' => 'Success', 
+                'message' => 'Subscription status updated successfully'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+
+            return back()->with([
+                'status' => 'Failure', 
+                'message' => 'Something went wrong, please contact your admin.'
+            ]);
+        }
+
+    }
+
 
 }

@@ -15,6 +15,8 @@ Route::middleware(['auth:super-admin'])->prefix('super-admin')->group(function (
     Route::get('/dashboard', [TenantController::class,'dashboard'])->name('super-admin.dashboard');
     Route::get('/tenants/create', [TenantController::class,'create'])->name('super-admin.tenants.create');
     Route::post('/tenants/store', [TenantController::class,'store'])->name('super-admin.tenants.store');
+    Route::patch('/tenants/{tenant}/subscription', [TenantController::class, 'updateSubscription'])->name('super-admin.tenants.updateSubscription');
+
 });
 
 

@@ -33,7 +33,9 @@
             <tr>
                 <td class="py-4 pl-4 pr-8 sm:pl-6 lg:pl-8">
                 <div class="flex items-center gap-x-4">
-                    <div class="truncate text-sm font-medium leading-6 text-white">{{ $domain->tenant_id }}</div>
+                    <div class="truncate text-sm font-medium leading-6 text-white">
+                     <a href="#">{{ $domain->tenant_id }}</a>   
+                    </div>
                 </div>
                 </td>
                 <td class="hidden py-4 pl-0 pr-4 sm:table-cell sm:pr-8">
@@ -45,11 +47,21 @@
                 </td>
                 <td class="py-4 pl-0 pr-4 text-sm leading-6 sm:pr-8 lg:pr-20">
                 <div class="flex items-center justify-end gap-x-2 sm:justify-start">
-                    <time class="text-gray-400 sm:hidden" datetime="2023-01-23T11:00">{{$domain->created_at->diffForHumans() }}</time>
+                    @if( ucfirst($domain->tenant->subscription_status) == true)
                     <div class="flex-none rounded-full p-1 text-green-400 bg-green-400/10">
+                    @else
+                    <div class="flex-none rounded-full p-1 text-red-400 bg-red-400/10">
+                    @endif        
                     <div class="h-1.5 w-1.5 rounded-full bg-current"></div>
                     </div>
-                    <div class="hidden text-white sm:block">Active</div>
+                    <form action="{{ route('super-admin.tenants.updateSubscription', $domain->tenant_id) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <select name="subscription_status" onchange="this.form.submit()" class="mt-2 block w-32 rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <option value="1" {{ $domain->tenant->subscription_status ? 'selected' : '' }}>Active</option>
+                            <option value="0" {{ !$domain->tenant->subscription_status ? 'selected' : '' }}>Inactive</option>
+                        </select>
+                    </form>
                 </div>
                 </td>
                 <td class="hidden py-4 pl-0 pr-8 text-sm leading-6 text-gray-400 md:table-cell lg:pr-20">25s</td>

@@ -179,4 +179,61 @@ class TenantStoreTest extends TestCase
         $this->assertDatabaseDoNotExists($databaseName, env('TENANT_DB_CONNECTION'));
     }
 
+    /** @test */
+    public function a_subscription_status_can_be_updated_to_inactive()
+    {
+                
+        Auth::guard('super-admin')->login($this->user);
+        
+        $response = $this->post('super-admin/tenants/store', $this->validData);
+        $response->assertStatus(302);
+
+        $tenant = Tenant::where('id', $this->validData['id'])->first();
+
+        // Update the subscription status
+        $response = $this->patch(route('super-admin.tenants.updateSubscription', $tenant->id), [
+            'subscription_status' => false
+        ]);
+
+        // Assert the response is redirected back to the previous page with success message
+        $response->assertRedirect()
+                ->assertSessionHas('message', 'Subscription status updated successfully');
+
+        // Check the subscription status is updated in the database
+        $this->assertFalse(Tenant::find($tenant->id)->subscription_status);
+
+        $response = $this->get('http://' . $this->validData['company_website'] . "." . env('APP_DOMAIN'));
+        $response->assertStatus(404);
+    }
+
+    /** @test */
+    public function a_subscription_status_can_be_updated_to_active()
+    {
+                
+        Auth::guard('super-admin')->login($this->user);
+
+        $this->validData['subscription_status'] = false;
+        
+        $response = $this->post('super-admin/tenants/store', $this->validData);
+        $response->assertStatus(302);
+
+        $tenant = Tenant::where('id', $this->validData['id'])->first();
+
+        // Update the subscription status
+        $response = $this->patch(route('super-admin.tenants.updateSubscription', $tenant->id), [
+            'subscription_status' => true
+        ]);
+
+        // Assert the response is redirected back to the previous page with success message
+        $response->assertRedirect()
+                ->assertSessionHas('message', 'Subscription status updated successfully');
+
+        // Check the subscription status is updated in the database
+        $this->assertTrue(Tenant::find($tenant->id)->subscription_status);
+
+        $response = $this->get('http://' . $this->validData['company_website'] . "." . env('APP_DOMAIN'));
+        $response->assertStatus(200);
+    }
+
+
 }
