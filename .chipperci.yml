@@ -6,7 +6,7 @@ environment:
   node: 16    # 6, 8, 10, 12, 14, 16
 
 services:
-  - postgres: 13
+  - postgres: 14
   - redis:
 
 pipeline:
