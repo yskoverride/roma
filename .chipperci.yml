@@ -10,6 +10,14 @@ services:
   - redis:
 
 pipeline:
+
+  - name: "Build and Test"
+    steps:
+      - name: "Setup Databases"
+        commands:
+          - psql -c 'CREATE DATABASE landlord;' -U chipperci
+          - psql -c 'CREATE DATABASE tenant;' -U chipperci
+
   - name: Setup
     cmd: |
       cp -v .env.example .env
