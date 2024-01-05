@@ -13,8 +13,8 @@ pipeline:
 
   - name: Setup Databases
     cmd: |
-      - psql -c 'CREATE DATABASE arom_landlord;' -U chipperci
-      - psql -c 'CREATE DATABASE arom_tenant;' -U chipperci
+      - PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USERNAME -c "create database arom_landlord;"
+      - PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USERNAME -c "create database arom_tenant;"
 
   - name: Setup Packages
     cmd: |
