@@ -11,14 +11,12 @@ services:
 
 pipeline:
 
-  - name: "Build and Test"
-    steps:
-      - name: "Setup Databases"
-        commands:
-          - psql -c 'CREATE DATABASE arom_landlord;' -U chipperci
-          - psql -c 'CREATE DATABASE arom_tenant;' -U chipperci
+  - name: Setup Databases
+    cmd:
+      - psql -c 'CREATE DATABASE arom_landlord;' -U chipperci
+      - psql -c 'CREATE DATABASE arom_tenant;' -U chipperci
 
-  - name: Setup
+  - name: Setup Packages
     cmd: |
       cp -v .env.example .env
       composer install --no-interaction --prefer-dist --optimize-autoloader
