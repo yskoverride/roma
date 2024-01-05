@@ -13,7 +13,7 @@ jobs:
           POSTGRES_USER: user
           POSTGRES_PASSWORD: password
           POSTGRES_DB: arom_landlord
-          POSTGRES_MAX_CONNECTIONS: 100
+          POSTGRES_MAX_CONNECTIONS: 500
         ports:
           - 5432:5432
         options: >-
