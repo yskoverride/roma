@@ -12,7 +12,7 @@ services:
 pipeline:
 
   - name: Setup Databases
-    cmd:
+    cmd: |
       - psql -c 'CREATE DATABASE arom_landlord;' -U chipperci
       - psql -c 'CREATE DATABASE arom_tenant;' -U chipperci
 
