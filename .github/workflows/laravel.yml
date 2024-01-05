@@ -37,7 +37,7 @@ jobs:
     - name: Create Tenant Database
       run: |
         export PGPASSWORD=password
-        psql -c 'CREATE DATABASE arom_tenant;' -U user -h localhost -p 5432
+        psql -c 'CREATE DATABASE arom_tenant;' -U user -h localhost -p 5432 -d arom_landlord
 
     - name: Setup Packages
       run: cp -v .env.example .env
