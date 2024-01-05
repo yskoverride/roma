@@ -1,0 +1,64 @@
+name: Laravel CI
+
+on: [push, pull_request]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: arom_landlord
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.0'
+        extensions: mbstring, dom, curl, pdo_pgsql
+        tools: composer, phpunit
+
+    # Add other steps like caching dependencies, etc.
+
+    - name: Create Tenant Database
+      run: psql -c 'CREATE DATABASE arom_tenant;' -U user -h localhost -p 5432
+
+    - name: Setup Packages
+      run: cp -v .env.example .env
+
+    - name: Generate key
+      run: php artisan key:generate
+
+    - name: Install Dependencies
+      run: composer install --prefer-dist --no-interaction
+
+    # Add steps to set up your application, like copying .env files, etc.
+    
+    - name: Run Migrations in Landlord Database
+      run: php artisan migrate
+
+    - name: Run Migrations in Tenant Database
+      run: php artisan tenants:migrate
+
+    - name: Install Node packages
+      run: npm ci --no-audit
+      
+    - name: Compile Dev Assets
+      run: npm run build
+
+    - name: Run Tests
+      run: phpunit
