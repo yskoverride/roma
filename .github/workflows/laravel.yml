@@ -35,7 +35,9 @@ jobs:
     # Add other steps like caching dependencies, etc.
 
     - name: Create Tenant Database
-      run: psql -c 'CREATE DATABASE arom_tenant;' -U user -h localhost -p 5432
+      run: |
+        export PGPASSWORD=password
+        psql -c 'CREATE DATABASE arom_tenant;' -U user -h localhost -p 5432
 
     - name: Setup Packages
       run: cp -v .env.example .env
